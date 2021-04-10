@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Router } from "@reach/router"
 
-function App() {
+// routes
+import Home from './routes/Home'
+import Checkout from './routes/Checkout'
+
+// components
+import Nav from './components/Nav'
+import Product from './components/Product'
+
+// data
+import products from "./data/products"
+
+
+const App = () => {
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Nav products={products} />
+
+      <Router>
+        <Home products={products} path="/" />
+        <Checkout path="checkout" />
+        {products.map((product, i) => {
+          return (
+            <Product {...product} path={`product-${i + 1}`} />
+          )
+        })}
+      </Router>
     </div>
-  );
+  )
 }
 
 export default App;
