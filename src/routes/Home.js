@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from '@reach/router'
+import { indexToLetter } from '../utils'
 
 const Home = ({ products }) => (
   <div>
@@ -8,8 +9,8 @@ const Home = ({ products }) => (
       {products.map((product, i) => {
         const { name, price } = product
         return (
-          <li>
-            <Link to={`product-${i + 1}`}>
+          <li key={i}>
+            <Link to={`product-${indexToLetter(i)}`}>
               {name}
               <span> - ${price}</span>
             </Link>

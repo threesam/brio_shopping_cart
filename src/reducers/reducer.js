@@ -4,17 +4,38 @@ const initialState = {
 }
 
 const appReducer = (state = initialState, action) => {
+  // grab ids from cart
+  const cartIds = state.items.map(item => item.id)
+
   switch (action.type) {
-    case 'ADD_TASK':
-      return {
-        ...state,
-        tasks: state.tasks.concat(action.task)
+    case 'ADD_ITEM':
+      // check if cart already includes new item
+      if (cartIds.includes(action.item.id)) {
+        // if duplicate exists, add new and old quantity
+        const appendedItems = state.items.map(item => {
+          if (item.id === action.item.id) {
+            item.quantity += action.item.quantity
+            return item
+          } else {
+            return item
+          }
+        })
+        return {
+          ...state,
+          items: appendedItems
+        }
+        // if non-duplicate item, concat
+      } else {
+        return {
+          ...state,
+          items: state.items.concat(action.item)
+        }
       }
 
-    case 'ADD_ITEM':
+    case 'DELETE_ITEM':
       return {
         ...state,
-        items: state.items.concat(action.item)
+        items: state.items.filter(item => item.id !== action.item.id)
       }
 
     default:

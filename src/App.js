@@ -1,61 +1,34 @@
 import React from 'react'
 import { Router } from "@reach/router"
-import { connect } from 'react-redux'
-import { addTask } from './actions'
+import { indexToLetter } from './utils'
 
 // routes
 import Home from './routes/Home'
 import Checkout from './routes/Checkout'
 
 // components
-import Nav from './components/Nav'
+import Navbar from './components/Navbar'
 import Product from './components/Product'
 
 // data
 import products from "./data/products"
 
-
-const App = ({ appState, addNewTask }) => {
-
-  function handleAddTask() {
-    const task = document.querySelector('.task').value
-    addNewTask(task)
-  }
-
+const App = () => {
   return (
     <div className="App">
-      <h1>Tasks</h1>
-      <div className="tasks">
-        {appState.tasks.map((task, i) => (
-          <p key={i}>{task}</p>
-        ))}
-      </div>
-
-      <input type="text" className="task" />
-      <button onClick={handleAddTask}>Add Task</button>
-      <hr />
-      <Nav products={products} />
+      <Navbar products={products} />
 
       <Router>
         <Home products={products} path="/" />
         <Checkout path="checkout" />
-        {products.map((product, i) => {
-          return (
-            <Product {...product} path={`product-${i + 1}`} />
+        {products.map((product, i) => (
+          <Product key={i} {...product} path={`product-${indexToLetter(i)}`} />
           )
-        })}
+        )}
       </Router>
     </div>
   )
 }
 
-const mapStateToProps = (state) => ({
-  appState: state
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  addNewTask: task => dispatch(addTask(task))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App
    

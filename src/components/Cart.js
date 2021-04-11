@@ -1,17 +1,33 @@
 import React from "react"
 import { Link } from '@reach/router'
+import { connect } from 'react-redux'
+import { getSubtotal } from '../utils'
+
+import CartItem from '../components/CartItem'
 import './Cart.css'
 
-const Cart = (props) => {
-  const { show, closeCart } = props
+const Cart = ({ show, closeCart, appState }) => {
+  const { items } = appState
 
   return (
-    <aside className={show ? "show" : "hide"}>
-      <button onClick={closeCart}>X</button>
-      <h1>Cart</h1>
-      <Link to="checkout">Checkout</Link>
-    </aside>
+    <section>
+      <div onClick={closeCart}></div>
+      <aside className={show ? "show" : "hide"}>
+        <h1>Cart</h1>
+        <ul>
+          {items.map(item => (<CartItem key={item.id} {...item} canDelete="true" />))}
+        </ul>
+        <p>{items.length !== 0
+          ? `Subtotal: $${getSubtotal(items)}`
+          : 'empty cart'}</p>
+        <Link to="checkout">Checkout</Link>
+      </aside>
+    </section>
   )
 }
 
-export default Cart
+const mapStateToProps = (state) => ({
+  appState: state
+})
+
+export default connect(mapStateToProps)(Cart)
