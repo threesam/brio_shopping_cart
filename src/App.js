@@ -9,6 +9,7 @@ import Checkout from './routes/Checkout'
 // components
 import Navbar from './components/Navbar'
 import Product from './components/Product'
+import Cart from './components/Cart'
 
 // data
 import products from "./data/products"
@@ -17,7 +18,7 @@ const App = () => {
   return (
     <div className="App">
       <Navbar products={products} />
-
+      <Cart />
       <Router>
         <Home products={products} path="/" />
         <Checkout path="checkout" />

@@ -1,6 +1,6 @@
 const initialState = {
-  tasks: ['I am a task'],
-  items: []
+  items: [],
+  cartIsOpen: false
 }
 
 const appReducer = (state = initialState, action) => {
@@ -36,6 +36,12 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         items: state.items.filter(item => item.id !== action.item.id)
+      }
+
+    case 'IS_CART_OPEN':
+      return {
+        ...state,
+        cartIsOpen: action.bool
       }
 
     default:

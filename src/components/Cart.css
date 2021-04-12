@@ -1,5 +1,17 @@
+aside {
+  background: white;
+}
+
 .show {
-  display: block;
+  display: grid;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  grid-template-columns: 1fr 300px;
+  background: rgba(0,0,0,0.69);
 }
 
 .hide {

@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { connect } from 'react-redux'
-import { addItemToCart } from '../actions'
+import { addItemToCart, isCartOpen } from '../actions'
 
-const Product = ({ name, price, description, image, id, addNewItemToCart, deleteExistingItemFromCart, appState }) => {
+const Product = ({ name, price, description, image, id, addNewItemToCart, deleteExistingItemFromCart, changeIsCartOpenTo, appState }) => {
   // set initial quantity to 1
   const [counter, setCounter] = useState(1)
 
@@ -25,6 +25,7 @@ const Product = ({ name, price, description, image, id, addNewItemToCart, delete
       quantity: +counter // coerce to number
     }
     addNewItemToCart(item)
+    changeIsCartOpenTo(true)
   }
 
   const handleInputChange = (e) => setCounter(e.target.value)
@@ -53,6 +54,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addNewItemToCart: (item) => dispatch(addItemToCart(item)),
+  changeIsCartOpenTo: (bool) => dispatch(isCartOpen(bool))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product)

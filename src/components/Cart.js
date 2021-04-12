@@ -2,17 +2,22 @@ import React from "react"
 import { Link } from '@reach/router'
 import { connect } from 'react-redux'
 import { getSubtotal } from '../utils'
+import { isCartOpen } from '../actions'
 
 import CartItem from '../components/CartItem'
 import './Cart.css'
 
-const Cart = ({ show, closeCart, appState }) => {
-  const { items } = appState
+const Cart = ({ changeIsCartOpenTo, appState }) => {
+  const { items, cartIsOpen } = appState
+
+  const handleCloseCart = () => {
+    changeIsCartOpenTo(false)
+  }
 
   return (
-    <section>
-      <div onClick={closeCart}></div>
-      <aside className={show ? "show" : "hide"}>
+    <section className={cartIsOpen ? "show" : "hide"}>
+      <div onClick={handleCloseCart}></div>
+      <aside>
         <h1>Cart</h1>
         <ul>
           {items.map(item => (<CartItem key={item.id} {...item} canDelete="true" />))}
@@ -20,7 +25,7 @@ const Cart = ({ show, closeCart, appState }) => {
         <p>{items.length !== 0
           ? `Subtotal: $${getSubtotal(items)}`
           : 'empty cart'}</p>
-        <Link to="checkout">Checkout</Link>
+        <Link to="checkout" onClick={handleCloseCart}>Checkout</Link>
       </aside>
     </section>
   )
@@ -30,4 +35,8 @@ const mapStateToProps = (state) => ({
   appState: state
 })
 
-export default connect(mapStateToProps)(Cart)
+const mapDispatchToProps = (dispatch) => ({
+  changeIsCartOpenTo: (bool) => dispatch(isCartOpen(bool)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)

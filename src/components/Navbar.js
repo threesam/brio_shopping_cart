@@ -1,28 +1,29 @@
-import React, { useState } from "react"
+import React from "react"
 import { Link } from "@reach/router"
 import styled from 'styled-components'
 import { indexToLetter } from '../utils'
+import { connect } from 'react-redux'
+import { isCartOpen } from '../actions'
 
-// components
-import Cart from './Cart'
 
-const Navbar = ({ products }) => {
-  // cart modal state
-  const [show, setShow] = useState(false)
-  const openCart = () => setShow(true)
-  const closeCart = () => setShow(false)
+const Navbar = ({ products, appState, changeIsCartOpenTo }) => {
+  const { cartIsOpen } = appState
+
+  const handleOpenCart = () => {
+    changeIsCartOpenTo(true)
+  }
 
   return (
     <Header>
-      <NavLink to="/"><strong>React Store</strong></NavLink>
+      <NavLink logo to="/"><strong>React Store</strong></NavLink>
 
       <Nav>
+        <div>
         {products.map((product, i) => (
           <NavLink key={product.id} to={`product-${indexToLetter(i)}`}>{`Product ${indexToLetter(i).toUpperCase()}`}</NavLink>
-        ))}
-
-        {!show && <button onClick={openCart}>View Cart</button>}
-        <Cart closeCart={closeCart} show={show} />
+          ))}
+        </div>
+        {!cartIsOpen && <Button onClick={handleOpenCart}>View Cart</Button>}
       </Nav>
     </Header>
   )
@@ -31,21 +32,42 @@ const Navbar = ({ products }) => {
 const Header = styled.header`
   width: 100vw;
   height: 3rem;
-  display: flex;
-  flex-flow: row;
+  display: grid;
+  grid-template-columns: 200px 1fr;
   align-items: center;
   border-bottom: 1px solid lightgray;
 `
 
 const Nav = styled.nav`
-  width: 50rem;
+  width: 100%;
   display: flex;
   flex-flow: row;
+  justify-content: space-between;
 `
 
 const NavLink = styled(Link)`
   text-decoration: none;
-  margin-left: 1rem;
+  color: inherit;
+  margin-right: 2rem;
+  text-align: ${props => props.logo ? 'center' : 'none'};
+  font-size: ${props => props.logo ? '150%' : '100%'};
+`
+const Button = styled.button`
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin-right: 2rem;
+  font-size: 100%;
+  font-family: inherit;
 `
 
-export default Navbar
+const mapStateToProps = (state) => ({
+  appState: state
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  changeIsCartOpenTo: (bool) => dispatch(isCartOpen(bool)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)
