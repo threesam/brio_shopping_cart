@@ -48,7 +48,7 @@ const Nav = styled.nav`
 const NavLink = styled(Link)`
   text-decoration: none;
   color: inherit;
-  margin-right: 2rem;
+  margin-right: ${props => props.logo ? '' : '4rem'};
   text-align: ${props => props.logo ? 'center' : 'none'};
   font-size: ${props => props.logo ? '150%' : '100%'};
 `
