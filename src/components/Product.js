@@ -30,6 +30,7 @@ const Product = ({ name, price, description, image, id, addNewItemToCart, delete
     }
     addNewItemToCart(item)
     changeIsCartOpenTo(true)
+    setCounter(1)
   }
 
   const handleInputChange = (e) => setCounter(e.target.value)
