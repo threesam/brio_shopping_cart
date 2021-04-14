@@ -4,7 +4,7 @@ import { getSubtotal } from '../utils'
 import styled from 'styled-components'
 
 // imported styles
-import { PrimaryButton, Ul, P } from '../styles/styles'
+import { Container, PrimaryButton, Ul, P } from '../styles/styles'
 
 //components
 import CartItem from '../components/CartItem'
@@ -15,25 +15,30 @@ const Checkout = ({ appState }) => {
   return (
     <Container>
       <H1>Checkout</H1>
-      <Offset>
-        <Ul>
-          {items.map(item => (<CartItem key={item.id} {...item} />))}
-        </Ul>
-      </Offset>
       {items.length !== 0
-        ? <P>Total: ${getSubtotal(items)}</P>
-        : <P>empty cart</P>}
-      {items.length !== 0
-        ? <Button onClick={() => window.alert('purchased')}>Purchase</Button>
-        : <Button disabled="true">Purchase</Button>}
+        ? (
+          <>
+            <Offset>
+              <Ul>
+                {items.map(item => (<CartItem key={item.id} {...item} />))}
+              </Ul>
+            </Offset>
+            <P>Total: ${getSubtotal(items)}</P>
+          </>
+        )
+        : (
+          <>
+            <P>Cart is empty</P>
+            <P>Total: $0.00</P>
+          </>
+        )
+      }
+      <Button disabled={items.length === 0} onClick={() => window.alert('purchased')}>Purchase</Button>
     </Container>
   )
 }
 
 // styles
-const Container = styled.div`
-  padding: 2rem 0;
-`
 
 const H1 = styled.h1`
   font-size: 2rem;
@@ -47,10 +52,6 @@ const Offset = styled.div`
 
 const Button = styled(PrimaryButton)`
   background-color: #5bb75d;
-
-  :disabled {
-    background-color: silver;
-  }
 `
 
 const mapStateToProps = (state) => ({

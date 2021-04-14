@@ -24,20 +24,28 @@ const Cart = ({ changeIsCartOpenTo, appState }) => {
       <div onClick={handleCloseCart}></div>
       <Aside>
         <H1>Cart</H1>
-        <Ul>
-          {items.length !== 0
-            ? items.map(item => (<CartItem key={item.id} {...item} canDelete="true" />))
-            : <li>Cart is empty.</li>}
-        </Ul>
-        <Div>
-          {items.length !== 0
-            ? <P>Subtotal: ${getSubtotal(items).toFixed(2)}</P>
-            : <P>$0.00</P>}
-          {items.length !== 0
-            ? <Button to="checkout" onClick={handleCloseCart}>Checkout</Button>
-            : <DisabledButton>Checkout</DisabledButton>
-          }
-        </Div>
+        {items.length !== 0
+          ? (
+            <>
+              <Ul>
+                {items.map(item => (<CartItem key={item.id} {...item} canDelete="true" />))}
+              </Ul>
+              <Div>
+                <P>Subtotal: ${getSubtotal(items).toFixed(2)}</P>
+                <Button to="checkout" onClick={handleCloseCart}>Checkout</Button>
+              </Div>
+            </>
+          )
+          : (
+            <>
+              <Div>
+                <P>Cart is empty.</P>
+                <P>Subtotal: $0.00</P>
+                <DisabledButton>Checkout</DisabledButton>
+              </Div>
+            </>
+          )
+        }
       </Aside>
     </section>
   )
