@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+export const Container = styled.div`
+  padding: 2rem 0;
+`
+
 // buttons 
 export const PrimaryButton = styled.button`
   font-size: 105%;
@@ -8,6 +12,10 @@ export const PrimaryButton = styled.button`
   color: white;
   border: none;
   border-radius: 5px;
+
+  :disabled {
+    background-color: silver;
+  }
 `
 
 // headers
