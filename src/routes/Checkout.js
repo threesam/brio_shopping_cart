@@ -23,7 +23,7 @@ const Checkout = ({ appState }) => {
                 {items.map(item => (<CartItem key={item.id} {...item} />))}
               </Ul>
             </Offset>
-            <P>Total: ${getSubtotal(items)}</P>
+            <P>Total: ${getSubtotal(items).toFixed(2)}</P>
           </>
         )
         : (
