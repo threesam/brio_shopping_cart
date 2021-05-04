@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { getSubtotal } from '../utils'
 import styled from 'styled-components'
 
@@ -9,8 +9,8 @@ import { Container, PrimaryButton, Ul, P } from '../styles/styles'
 //components
 import CartItem from '../components/CartItem'
 
-const Checkout = ({ appState }) => {
-  const { items } = appState
+const Checkout = () => {
+  const items = useSelector(state => state.items)
 
   return (
     <Container>
@@ -54,8 +54,4 @@ const Button = styled(PrimaryButton)`
   background-color: #5bb75d;
 `
 
-const mapStateToProps = (state) => ({
-  appState: state
-})
-
-export default connect(mapStateToProps)(Checkout)
+export default Checkout

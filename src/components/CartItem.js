@@ -1,17 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { deleteItemFromCart } from '../actions'
 import styled from 'styled-components'
 import { MdClose } from 'react-icons/md'
 
 
-const CartItem = ({ canDelete = false, name, price, id, image, quantity, deleteExistingItemFromCart, appState }) => {
-  function handleDeleteItemFromCart() {
-    const item = {
-      id
-    }
-    deleteExistingItemFromCart(item)
-  }
+const CartItem = ({ canDelete = false, name, price, id, image, quantity }) => {
+  const dispatch = useDispatch()
 
   return (
     <Li key={id}>
@@ -21,7 +16,7 @@ const CartItem = ({ canDelete = false, name, price, id, image, quantity, deleteE
         <span>({quantity}) x ${price}</span>
       </div>
       {canDelete
-        ? (<Button onClick={handleDeleteItemFromCart}>
+        ? (<Button onClick={() => dispatch(deleteItemFromCart({ id }))}>
           <MdClose title="delete item" size="1.5rem" style={{ color: 'silver' }} />
         </Button>)
         : ''}
@@ -58,14 +53,4 @@ const Button = styled.button`
   margin: 0;
 `
 
-// redux
-
-const mapStateToProps = (state) => ({
-  appState: state
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  deleteExistingItemFromCart: (item) => dispatch(deleteItemFromCart(item))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartItem)
+export default CartItem

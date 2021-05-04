@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from '@reach/router'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getSubtotal } from '../utils'
 import { isCartOpen } from '../actions'
@@ -12,16 +12,14 @@ import CartItem from '../components/CartItem'
 import { Ul, P } from '../styles/styles'
 import './Cart.css'
 
-const Cart = ({ changeIsCartOpenTo, appState }) => {
-  const { items, cartIsOpen } = appState
-
-  const handleCloseCart = () => {
-    changeIsCartOpenTo(false)
-  }
+const Cart = () => {
+  const items = useSelector(state => state.items)
+  const cartIsOpen = useSelector(state => state.cartIsOpen)
+  const dispatch = useDispatch()
 
   return (
     <section className={cartIsOpen ? "show" : "hide"}>
-      <div onClick={handleCloseCart}></div>
+      <div onClick={() => dispatch(isCartOpen(false))}></div>
       <Aside>
         <H1>Cart</H1>
         {items.length !== 0
@@ -32,7 +30,7 @@ const Cart = ({ changeIsCartOpenTo, appState }) => {
               </Ul>
               <Div>
                 <P>Subtotal: ${getSubtotal(items).toFixed(2)}</P>
-                <Button to="checkout" onClick={handleCloseCart}>Checkout</Button>
+                <Button to="checkout" onClick={() => dispatch(isCartOpen(false))}>Checkout</Button>
               </Div>
             </>
           )
@@ -92,12 +90,4 @@ const DisabledButton = styled.button`
   }
 `
 
-const mapStateToProps = (state) => ({
-  appState: state
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  changeIsCartOpenTo: (bool) => dispatch(isCartOpen(bool)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default Cart

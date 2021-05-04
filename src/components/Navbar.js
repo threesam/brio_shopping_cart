@@ -2,16 +2,13 @@ import React from "react"
 import { Link } from "@reach/router"
 import styled from 'styled-components'
 import { indexToLetter } from '../utils'
-import { connect } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import { isCartOpen } from '../actions'
 
 
-const Navbar = ({ products, appState, changeIsCartOpenTo }) => {
-  const { cartIsOpen } = appState
-
-  const handleOpenCart = () => {
-    changeIsCartOpenTo(true)
-  }
+const Navbar = ({ products }) => {
+  const cartIsOpen = useSelector(state => state.cartIsOpen)
+  const dispatch = useDispatch()
 
   return (
     <Header>
@@ -23,7 +20,7 @@ const Navbar = ({ products, appState, changeIsCartOpenTo }) => {
           <NavLink key={product.id} to={`product-${indexToLetter(i)}`}>{`Product ${indexToLetter(i).toUpperCase()}`}</NavLink>
           ))}
         </div>
-        {!cartIsOpen && <Button onClick={handleOpenCart}>View Cart</Button>}
+        {!cartIsOpen && <Button onClick={() => dispatch(isCartOpen(true))}>View Cart</Button>}
       </Nav>
     </Header>
   )
@@ -62,12 +59,4 @@ const Button = styled.button`
   font-family: inherit;
 `
 
-const mapStateToProps = (state) => ({
-  appState: state
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  changeIsCartOpenTo: (bool) => dispatch(isCartOpen(bool)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar)
+export default Navbar

@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import styled from 'styled-components'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addItemToCart, isCartOpen } from '../actions'
 
 // imported styles
 import { PrimaryButton } from '../styles/styles'
 
-const Product = ({ name, price, description, image, id, addNewItemToCart, deleteExistingItemFromCart, changeIsCartOpenTo, appState }) => {
+const Product = ({ name, price, description, image, id }) => {
+  const dispatch = useDispatch()
   // init quantity to 1
   const [counter, setCounter] = useState(1)
 
@@ -18,7 +19,7 @@ const Product = ({ name, price, description, image, id, addNewItemToCart, delete
     setCounter(counter - 1)
   }
 
-  // redux actions
+  // dispatch actions
   const handleAddToCart = () => {
     const item = {
       id,
@@ -28,8 +29,8 @@ const Product = ({ name, price, description, image, id, addNewItemToCart, delete
       image,
       quantity: +counter // coerce to number
     }
-    addNewItemToCart(item)
-    changeIsCartOpenTo(true)
+    dispatch(addItemToCart(item))
+    dispatch(isCartOpen(true))
     setCounter(1)
   }
 
@@ -118,15 +119,5 @@ const Counter = styled.div`
     text-align: center;
   }
 `
-// redux
 
-const mapStateToProps = (state) => ({
-  appState: state
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  addNewItemToCart: (item) => dispatch(addItemToCart(item)),
-  changeIsCartOpenTo: (bool) => dispatch(isCartOpen(bool))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Product)
+export default Product
