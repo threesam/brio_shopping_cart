@@ -12,6 +12,7 @@ import PageLayout from './components/PageLayout'
 import Navbar from './components/Navbar'
 import Product from './components/Product'
 import Cart from './components/Cart'
+import Github from './components/Github'
 
 // data
 import products from "./data/products"
@@ -23,6 +24,7 @@ const App = () => {
       <div className="App">
         <Navbar products={products} />
         <Cart />
+        <Github />
         <PageLayout>
           <Router>
               <Home products={products} path="/" />
