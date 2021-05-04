@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "@reach/router"
 import styled from 'styled-components'
 import { indexToLetter } from '../utils'
-import { connect, useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { isCartOpen } from '../actions'
 
 
